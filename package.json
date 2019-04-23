@@ -1,0 +1,16 @@
+{
+    "name": "discli",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "tsc && node bin/main.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@types/node": "^11.13.7",
+        "discord.js": "^11.4.2"
+    }
+}
