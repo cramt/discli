@@ -1,5 +1,6 @@
 import * as discord from "discord.js"
 import { UI } from "./ui";
+import { WindowHandler as newUI } from "./windowHandler";
 import readline from "readline"
 import { EventEmitter } from "events";
 import { token } from "./secret";
@@ -17,8 +18,9 @@ interface KeyPress {
 }
 const sequenceEmitter = new EventEmitter();
 process.stdin.on('keypress', (str, key: KeyPress) => {
-    //console.log(key)
+
     sequenceEmitter.emit(key.sequence)
+    //console.log(key)
 });
 sequenceEmitter.on('\u0003', () => { //ctrl + c
     process.exit();
@@ -26,21 +28,38 @@ sequenceEmitter.on('\u0003', () => { //ctrl + c
 
 const client = new discord.Client()
 
-const ui = new UI();
-
 client.on("ready", () => {
-    console.log("hey boi")
-    console.log(client.guilds.size)
-    ui.guilds = client.guilds.array().sort((a, b) => a.position - b.position);
-    sequenceEmitter.on('\u0011', ()=>{
-        ui.nextGuild();
+    const ui = new newUI(client.guilds);
+    
+    /*
+    ui.init(client.guilds)
+
+    sequenceEmitter.on('\u0011', () => {
+        ui.nextGuild(1);
         ui.update();
     })
-    sequenceEmitter.on('\u0005', ()=>{
-        ui.nextGuild(-1);
+    sequenceEmitter.on('\u0017', () => {
+        ui.nextChannel(-1);
+        ui.update();
+    })
+    sequenceEmitter.on('\u0001', () => {
+        ui.nextGuild(-1)
+        ui.update();
+    })
+    sequenceEmitter.on('\u0013', () => {
+        ui.nextChannel(1)
+        ui.update();
+    })
+    sequenceEmitter.on('\u0005', () => {
+        ui.addScroll(-1)
+        ui.update();
+    })
+    sequenceEmitter.on('\u0004', () => {
+        ui.addScroll(1)
         ui.update();
     })
     ui.update();
+    */
 })
 
 client.login(token)
